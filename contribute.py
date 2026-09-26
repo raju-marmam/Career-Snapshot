@@ -83,25 +83,23 @@ def message(date):
 
 def contributions_per_day(args):
     max_c = args.max_commits
-    if max_c > 20:
-        max_c = 20
-    if max_c < 1:
-        max_c = 1
-    return randint(1, max_c)
+    if max_c > 9:
+        max_c = 9
+    if max_c < 3:
+        max_c = 3
+    return randint(3, max_c)
 
 
 def arguments(argsval):
     parser = argparse.ArgumentParser()
     parser.add_argument('-nw', '--no_weekends',
-                        required=False, action='store_true', default=False,
+                        required=False, action='store_true', default=True,
                         help="""do not commit on weekends""")
-    parser.add_argument('-mc', '--max_commits', type=int, default=10,
+    parser.add_argument('-mc', '--max_commits', type=int, default=9,
                         required=False, help="""Defines the maximum amount of
-                        commits a day the script can make. Accepts a number
-                        from 1 to 20. If N is specified the script commits
-                        from 1 to N times a day. The exact number of commits
-                        is defined randomly for each day. The default value
-                        is 10.""")
+                        commits a day the script can make. The default pattern
+                        keeps activity on weekdays and creates between 3 and 9
+                        commits per active day.""")
 
     def valid_frequency(value):
         value = int(value)
@@ -111,11 +109,11 @@ def arguments(argsval):
             )
         return value
 
-    parser.add_argument('-fr', '--frequency', type=valid_frequency, default=80,
+    parser.add_argument('-fr', '--frequency', type=valid_frequency, default=100,
                         required=False, help="""Percentage of days when the
                         script performs commits. If N is specified, the script
                         will commit N%% of days in a year. The default value
-                        is 80.""")
+                        is 100.""")
     parser.add_argument('-r', '--repository', type=str, required=False,
                         help="""A link on an empty non-initialized remote git
                         repository. If specified, the script pushes the changes

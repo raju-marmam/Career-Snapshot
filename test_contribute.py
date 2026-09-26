@@ -8,12 +8,19 @@ class TestContribute(unittest.TestCase):
     def test_arguments(self):
         args = contribute.arguments(['-nw'])
         self.assertTrue(args.no_weekends)
-        self.assertEqual(args.max_commits, 10)
-        self.assertTrue(1 <= contribute.contributions_per_day(args) <= 20)
+        self.assertEqual(args.max_commits, 9)
+        self.assertTrue(3 <= contribute.contributions_per_day(args) <= 9)
 
     def test_contributions_per_day(self):
         args = contribute.arguments(['-nw'])
         self.assertTrue(1 <= contribute.contributions_per_day(args) <= 20)
+
+    def test_default_weekday_activity_and_commit_range(self):
+        args = contribute.arguments([])
+        self.assertTrue(args.no_weekends)
+        self.assertEqual(args.max_commits, 9)
+        self.assertEqual(args.frequency, 100)
+        self.assertTrue(3 <= contribute.contributions_per_day(args) <= 9)
 
     def test_commits(self):
         contribute.NUM = 11   # limiting the number only for unittesting
